@@ -6,39 +6,33 @@
 /*   By: guilamar <guilamar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 18:23:49 by guilamar          #+#    #+#             */
-/*   Updated: 2026/06/20 19:28:15 by guilamar         ###   ########.fr       */
+/*   Updated: 2026/06/25 21:47:43 by guilamar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h";
+#include "ft_printf.h"
 
-static void	get_type(char *c)
+static void	get_type(char c, va_list args)
 {
 	switch (c)
 	{
 	case 'c':
-		/* code */
+		ft_putchar_fd(va_arg(args, int), 1);
 		break ;
 	case 's':
-		/* code */
+		va_arg(args, char *);
 		break ;
 	case 'p':
-		/* code */
+		va_arg(args, void *);
 		break ;
 	case 'd':
-		/* code */
-		break ;
 	case 'i':
-		/* code */
+		va_arg(args, int);
 		break ;
 	case 'u':
-		/* code */
-		break ;
 	case 'x':
-		/* code */
-		break ;
 	case 'X':
-		/* code */
+		va_arg(args, unsigned int);
 		break ;
 	default:
 		break ;
@@ -49,8 +43,11 @@ int	ft_printf(const char *format, ...)
 {
 	size_t	i;
 	size_t	printed;
+	va_list	args;
 
 	i = 0;
+	printed = 0;
+	va_start(args, format);
 	while (format[i])
 	{
 		if (format[i] != '%')
@@ -60,11 +57,12 @@ int	ft_printf(const char *format, ...)
 		}
 		else
 		{
-			get_type(format[i + 1]);
+			get_type(format[i + 1], args);
 			i += 1;
 		}
 		i++;
 	}
+	va_end(args);
 	return (0);
 }
 

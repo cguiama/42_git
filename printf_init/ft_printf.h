@@ -6,7 +6,7 @@
 /*   By: guilamar <guilamar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 18:28:01 by guilamar          #+#    #+#             */
-/*   Updated: 2026/06/20 19:15:15 by guilamar         ###   ########.fr       */
+/*   Updated: 2026/06/25 21:36:24 by guilamar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 # include "libft.h"
 # include <stdarg.h>
 
-int	ft_printf(const char *, ...);
+int	ft_printf(const char *format, ...);
 
 #endif
