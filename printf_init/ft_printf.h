@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guilamar <guilamar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: guilherme <guilherme@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/20 18:28:01 by guilamar          #+#    #+#             */
-/*   Updated: 2026/06/25 21:36:24 by guilamar         ###   ########.fr       */
+/*   Updated: 2026/07/09 23:14:32 by guilherme        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "libft.h"
 # include <stdarg.h>
 
-int	ft_printf(const char *format, ...);
+void	ft_putnbr_base_fd(unsigned long n, char *base, int fd);
+size_t	ft_numlen_base(unsigned long nbr, char *base);
+int		get_type(char c, va_list args);
+int		ft_printf(const char *format, ...);
 
 #endif
