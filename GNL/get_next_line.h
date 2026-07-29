@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: guilherme <guilherme@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/28 15:10:21 by guilamar          #+#    #+#             */
-/*   Updated: 2026/07/28 16:51:46 by guilherme        ###   ########.fr       */
+/*   Created: 2026/07/28 15:49:33 by guilherme         #+#    #+#             */
+/*   Updated: 2026/07/28 16:08:31 by guilherme        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*fs;
-	size_t	i;
-	size_t	j;
+# include <stdlib.h>
+# include <unistd.h>
 
-	if (!s1 || !s2)
-		return (NULL);
-	fs = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!fs)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1[i])
-	{
-		fs[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		fs[i++] = s2[j++];
-	}
-	fs[i] = '\0';
-	return (fs);
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+char	*get_next_line(int fd);
+size_t	ft_strlen(char *s);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+
+#endif
