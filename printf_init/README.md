@@ -23,7 +23,7 @@ Instead of writing separate functions for decimal, hexadecimal lowercase, and he
 - `%p` with `NULL` → prints `(nil)`
 - `INT_MIN` → cast through `(unsigned long)` before negation to avoid overflow
 - `%%` → prints a literal `%` without consuming any argument
-- Format string ending with a lone `%` → safely ignored
+- Format string ending with a lone `%` → returns -1 (mirrors glibc behavior)
 
 ## The Library (Function Inventory)
 
