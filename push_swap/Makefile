@@ -7,29 +7,29 @@ CFLAGS      = -Wall -Wextra -Werror -I./libft -I.
 RM          = rm -f
 
 SRCS        = push_swap.c	\
-            push_swap_list_utils.c	\
-            utils.c
+            push_swap_list_utils.c
 
 OBJS        = $(SRCS:.c=.o)
 
 all: $(NAME)
 
- $(NAME): $(LIBFT) $(OBJS)
-    $(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
- $(LIBFT):
-    $(MAKE) -C $(LIBFT_DIR)
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+
+$(LIBFT):
+	$(MAKE)	-C	$(LIBFT_DIR)
 
 %.o: %.c
-    $(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-    $(MAKE) clean -C $(LIBFT_DIR)
-    $(RM) $(OBJS)
+	$(MAKE) clean -C $(LIBFT_DIR)
+	$(RM) $(OBJS)
 
 fclean: clean
-    $(MAKE) fclean -C $(LIBFT_DIR)
-    $(RM) $(NAME)
+	$(MAKE) fclean -C $(LIBFT_DIR)
+	$(RM) $(NAME)
 
 re: fclean all
 
