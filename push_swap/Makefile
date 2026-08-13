@@ -7,7 +7,8 @@ CFLAGS      = -Wall -Wextra -Werror -I./libft -I.
 RM          = rm -f
 
 SRCS        = push_swap.c	\
-            push_swap_list_utils.c
+            stack_manipulation_tools.c	\
+			ststack_creation_tools.c.c
 
 OBJS        = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: guilherme <guilherme@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 21:58:46 by guilherme         #+#    #+#             */
-/*   Updated: 2026/08/13 00:16:44 by guilherme        ###   ########.fr       */
+/*   Updated: 2026/08/13 00:58:11 by guilherme        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@ t_stack				*ft_new_node(int value);
 t_stack				*ft_stacklast(t_stack *stack);
 t_stack				*init_stack(int argc, char **argv);
 void				ft_stackadd_back(t_stack **stack, t_stack *new_node);
+void				ft_stackadd_front(t_stack **stack, t_stack *new_node);
+int					ft_stacksize(t_stack *stack);
+void				ft_freestack(t_stack **stack);
 
 #endif
