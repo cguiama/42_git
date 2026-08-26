@@ -14,8 +14,12 @@
 
 int	ft_str_is_digit(char *str)
 {
+	if (!str || !*str)
+		return (0);
 	if (*str == '-' || *str == '+')
 		str++;
+	if (!*str)
+		return (0);
 	while (*str)
 	{
 		if (ft_isdigit(*str))

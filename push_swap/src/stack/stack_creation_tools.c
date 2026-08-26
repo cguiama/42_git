@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   stack_creation_tools.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guilherme <guilherme@student.42.fr>        +#+  +:+       +#+        */
+/*   By: guilamar <guilamar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 01:01:10 by guilherme         #+#    #+#             */
-/*   Updated: 2026/08/13 01:08:58 by guilherme        ###   ########.fr       */
+/*   Updated: 2026/08/18 15:56:08 by guilamar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack	*ft_new_node(int value)
+t_stack	*ft_new_node(int value, t_metrics *metrics)
 {
 	t_stack	*new_node;
 
@@ -21,24 +21,61 @@ t_stack	*ft_new_node(int value)
 		return (NULL);
 	new_node->value = value;
 	new_node->index = -1;
+	new_node->metrics = metrics;
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }
 
-t_stack	*init_stack(int argc, char **argv)
+t_stack	*init_stack(int count, char **values, t_metrics *metrics)
 {
 	t_stack	*stack_a;
+	t_stack	*new_node;
+	int		value;
 	int		i;
 
 	stack_a = NULL;
-	i = 1;
-	while (i < argc)
+	i = 0;
+	while (i < count)
 	{
-		ft_stackadd_back(&stack_a, ft_new_node(ft_atoi(argv[i])));
+		if (!parse_int(values[i], &value))
+		{
+			ft_freestack(&stack_a);
+			return (NULL);
+		}
+		new_node = ft_new_node(value, metrics);
+		if (!new_node)
+		{
+			ft_freestack(&stack_a);
+			return (NULL);
+		}
+		ft_stackadd_back(&stack_a, new_node);
 		i++;
 	}
 	return (stack_a);
+}
+
+t_stack	*init_stack_from_args(int argc, char **argv, int first,
+		t_metrics *metrics)
+{
+	t_stack	*stack;
+	t_input	input;
+
+	if (!normalize_args(argc - first, argv + first, &input))
+		return (NULL);
+	if (!validate_numbers(input.count, input.values, 0))
+	{
+		free_input(&input);
+		return (NULL);
+	}
+	stack = init_stack(input.count, input.values, metrics);
+	free_input(&input);
+	if (!stack || !ft_check_duplicates(stack))
+	{
+		ft_freestack(&stack);
+		return (NULL);
+	}
+	return (stack);
 }
 
 void	ft_freestack(t_stack **stack)

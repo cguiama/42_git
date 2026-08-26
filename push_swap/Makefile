@@ -1,14 +1,33 @@
 NAME        = push_swap
 LIBFT_DIR   = ./libft
 LIBFT       = $(LIBFT_DIR)/libft.a
+SRC_DIR     = src
+INCLUDE_DIR = include
 
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -I./libft -I.
+CFLAGS      = -g -Wall -Wextra -Werror -I./libft -I$(INCLUDE_DIR)
 RM          = rm -f
 
-SRCS        = push_swap.c	\
-            stack_manipulation_tools.c	\
-			ststack_creation_tools.c.c
+SRCS        = $(SRC_DIR)/main.c	\
+			$(SRC_DIR)/stack/stack_manipulation_tools.c	\
+			$(SRC_DIR)/stack/stack_creation_tools.c \
+			$(SRC_DIR)/parsing/input_validation.c \
+			$(SRC_DIR)/parsing/input_normalization.c \
+			$(SRC_DIR)/parsing/flags.c \
+			$(SRC_DIR)/operations/swap.c \
+			$(SRC_DIR)/operations/push.c \
+			$(SRC_DIR)/operations/rotate.c \
+			$(SRC_DIR)/operations/reverse_rotate.c \
+			$(SRC_DIR)/operations/operation_output.c \
+			$(SRC_DIR)/metrics/disorder.c \
+			$(SRC_DIR)/metrics/benchmark.c \
+			$(SRC_DIR)/metrics/index.c \
+			$(SRC_DIR)/sorting/simple_sort.c \
+			$(SRC_DIR)/sorting/strategy.c \
+			$(SRC_DIR)/sorting/complex_sort.c \
+			$(SRC_DIR)/sorting/medium_blocks.c \
+			$(SRC_DIR)/sorting/medium_restore.c \
+			$(SRC_DIR)/sorting/small_sort.c
 
 OBJS        = $(SRCS:.c=.o)
 

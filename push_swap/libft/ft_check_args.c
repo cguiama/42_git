@@ -12,16 +12,15 @@
 
 #include "libft.h"
 
-int	ft_check_args(int argc, char **argv)
+int	ft_check_args(int argc, char **argv, int first)
 {
-	int	i;
-
-	i = 1;
-	while (i < argc)
+	if (first >= argc)
+		return (0);
+	while (first < argc)
 	{
-		if (!ft_str_is_digit(argv[i]))
+		if (!ft_str_is_digit(argv[first]))
 			return (0);
-		i++;
+		first++;
 	}
 	return (1);
 }

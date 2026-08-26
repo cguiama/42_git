@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_manipulation_tools.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guilherme <guilherme@student.42.fr>        +#+  +:+       +#+        */
+/*   By: guilamar <guilamar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 22:27:17 by guilherme         #+#    #+#             */
-/*   Updated: 2026/08/13 01:15:36 by guilherme        ###   ########.fr       */
+/*   Updated: 2026/08/18 15:56:07 by guilamar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,15 @@ t_stack	*ft_stacklast(t_stack *stack)
 	while (stack->next)
 		stack = stack->next;
 	return (stack);
+}
+
+int	ft_stackis_sorted(t_stack *stack)
+{
+	while (stack && stack->next)
+	{
+		if (stack->value > stack->next->value)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
 }
