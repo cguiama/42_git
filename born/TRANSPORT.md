@@ -39,7 +39,102 @@ Se transportar somente o VDI, será necessário criar novamente a definição da
 Não coloque o VDI no Git ou no repositório de entrega: ele é grande, contém todo
 o sistema e não é um dos arquivos solicitados pelo subject.
 
-## 3. Opção A — registrar a pasta completa
+## 3. Transporte pelo Google Drive
+
+O Google Drive pode transportar a VM, mas ela deve estar completamente desligada
+antes da cópia. Copiar um VDI enquanto a VM escreve nele pode produzir uma cópia
+inconsistente.
+
+### 3.1 Preparar em casa
+
+Dentro da VM:
+
+```bash
+sudo poweroff
+```
+
+No VirtualBox, confirme o estado **Desligada**, não **Salva**. Abra as
+configurações de armazenamento da VM e anote o caminho mostrado para o VDI. A
+pasta deve conter pelo menos o `.vdi` e o `.vbox`.
+
+No terminal hospedeiro, entre nessa pasta e confira tamanhos:
+
+```bash
+ls -lh
+du -sh .
+```
+
+Não execute `du -sh .` em uma pasta ampla por engano; confirme no prompt que está
+dentro da pasta específica da VM.
+
+Crie um checksum de transporte enquanto a VM permanece desligada:
+
+```bash
+sha256sum Born2Reboot.vdi > Born2Reboot.vdi.sha256
+```
+
+Se o VDI tiver outro nome, use esse nome real. O SHA-256 deste passo serve para
+confirmar que upload e download não corromperam o arquivo; ele não substitui o
+SHA-1 exigido em `signature.txt`.
+
+### 3.2 Enviar ao Drive
+
+1. acesse `drive.google.com` no navegador;
+2. crie uma pasta privada, por exemplo `Born2beRoot-transfer`;
+3. escolha **Novo → Upload de pasta**;
+4. selecione somente a pasta da VM desligada;
+5. aguarde o upload terminar e confira se `.vdi`, `.vbox` e `.sha256` aparecem;
+6. não crie um link público e não compartilhe a pasta desnecessariamente.
+
+Uma conta Google pessoal normalmente oferece 15 GB compartilhados entre Drive,
+Gmail e Fotos. O limite depende da conta e do espaço já ocupado. Embora o Drive
+aceite arquivos genéricos muito maiores, o upload só funcionará se houver quota
+disponível. A capacidade virtual de 30 GB não é necessariamente o tamanho físico
+do VDI dinâmico; use `ls -lh` para conhecer o valor que será enviado.
+
+Se o navegador tiver dificuldade com upload de pasta, envie individualmente o
+VDI, o VBOX e o arquivo SHA-256 para a mesma pasta do Drive. Não é obrigatório
+compactar. Um arquivo compactado pode simplificar o download, mas exige espaço
+local adicional para criar e depois extrair a cópia.
+
+### 3.3 Baixar na 42
+
+1. entre na conta do Google Drive no computador da 42;
+2. baixe os arquivos para uma pasta local com espaço suficiente;
+3. não tente executar a VM diretamente de uma pasta sincronizada ou do navegador;
+4. mantenha `.vdi` e `.vbox` juntos na mesma pasta;
+5. encerre a sessão da conta Google ao terminar, principalmente em computador
+   compartilhado.
+
+No terminal do computador da 42, entre na pasta baixada e verifique:
+
+```bash
+sha256sum -c Born2Reboot.vdi.sha256
+```
+
+Resultado esperado:
+
+```text
+Born2Reboot.vdi: OK
+```
+
+Se falhar, não inicialize essa cópia: baixe novamente. Um arquivo com checksum
+incorreto não é idêntico ao enviado.
+
+### 3.4 Registrar no VirtualBox da 42
+
+Se o `.vbox` estiver presente, use **Máquina → Adicionar** e selecione-o. Se ele
+não funcionar ou se apenas o VDI foi transportado, siga a opção de recriação da
+VM abaixo.
+
+Confira o Adaptador 1 em NAT e recrie as regras 4242→4242 e 8080→80 antes de
+iniciar. Depois teste a VM conforme as seções seguintes deste documento.
+
+Somente depois de inicializar, auditar e desligar definitivamente a VM na 42,
+calcule o SHA-1 usado em `signature.txt`. O SHA-256 criado em casa verifica o
+transporte; o SHA-1 final identifica o estado entregue.
+
+## 4. Opção A — registrar a pasta completa
 
 No computador da 42:
 
@@ -54,7 +149,7 @@ Se o VirtualBox informar conflito de UUID porque já existe uma cópia registrad
 não gere um novo disco nem altere o original às cegas. Remova da interface a
 entrada antiga sem apagar os arquivos ou escolha a cópia correta.
 
-## 4. Opção B — recriar a VM usando somente o VDI
+## 5. Opção B — recriar a VM usando somente o VDI
 
 No VirtualBox do computador da 42:
 
@@ -69,7 +164,7 @@ No VirtualBox do computador da 42:
 O hostname, os usuários e os serviços não precisam ser refeitos, pois estão no
 VDI.
 
-## 5. Regras NAT
+## 6. Regras NAT
 
 Em **Configurações → Rede → Adaptador 1 → Avançado → Redirecionamento de
 Portas**, mantenha:
@@ -94,7 +189,7 @@ computador da 42:127.0.0.1:8080 → VirtualBox NAT → VM:80
 `127.0.0.1` restringe essas entradas ao próprio computador hospedeiro. Isso não
 expõe automaticamente a VM para outros computadores da rede ou para a Internet.
 
-## 6. Primeira inicialização na 42
+## 7. Primeira inicialização na 42
 
 Inicie a VM e confirme que ela chega à tela de login. O LUKS pedirá sua senha de
 descriptografia antes de montar os volumes lógicos.
@@ -114,7 +209,7 @@ O endereço IP interno pode mudar, porque normalmente é entregue por DHCP do NA
 Isso não exige alteração no script de monitoramento, que descobre a interface e
 o endereço dinamicamente.
 
-## 7. Testar SSH no computador da 42
+## 8. Testar SSH no computador da 42
 
 No terminal nativo do computador hospedeiro:
 
@@ -141,7 +236,7 @@ ssh-keygen -R '[127.0.0.1]:4242'
 
 Depois conecte novamente e compare a impressão digital antes de aceitar.
 
-## 8. Testar WordPress no computador da 42
+## 9. Testar WordPress no computador da 42
 
 Pelo terminal do hospedeiro:
 
@@ -159,7 +254,7 @@ http://127.0.0.1:8080/wp-admin/
 Não use `http://127.0.0.1/` no hospedeiro: sem a porta 8080, o pedido tenta a
 porta 80 do próprio computador da 42, e não a regra NAT da VM.
 
-## 9. Auditoria antes da assinatura
+## 10. Auditoria antes da assinatura
 
 Depois de terminar o bônus, execute os testes completos documentados em
 `STUDY_GUIDE.md`. No mínimo, confirme:
@@ -177,7 +272,7 @@ Depois de terminar o bônus, execute os testes completos documentados em
 Antes de iniciar a defesa, confirme também no VirtualBox que a VM não possui
 snapshots. O subject proíbe que a avaliação comece com snapshots existentes.
 
-## 10. Gerar a assinatura final
+## 11. Gerar a assinatura final
 
 A assinatura deve ser calculada somente depois que a VM estiver definitivamente
 pronta:
@@ -208,9 +303,10 @@ preservar o estado correspondente à assinatura, mas a avaliação deve começar
 sem snapshots e o snapshot criado para ela deve ser apagado ao final. Essa regra
 é diferente de manter snapshots antigos antes da defesa, o que é proibido.
 
-## 11. Checklist resumido
+## 12. Checklist resumido
 
 - [ ] Copiar a pasta da VM ou o VDI para o computador da 42.
+- [ ] Conferir o SHA-256 após o download do Google Drive.
 - [ ] Registrar a VM ou criar uma definição usando o VDI existente.
 - [ ] Conferir RAM, vCPUs, disco e Adaptador 1 em NAT.
 - [ ] Recriar e conferir as regras 4242→4242 e 8080→80.
