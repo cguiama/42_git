@@ -1,11 +1,27 @@
 #!/usr/bin/env python3
 
 class Plant:
+    class Stats:
+        def __init__(self):
+            self._grow_count = 0
+            self._age_count = 0
+            self._show_count = 0
+
+        def increment_grow(self) -> None:
+            self._grow_count += 1
+
+        def increment_age(self) -> None:
+            self._age_count += 1
+
+        def increment_show(self) -> None:
+            self._show_count += 1
+
     def __init__(self, name: str, height: float, age: int) -> None:
         self._name = name
         self._height = 0.0
         self._age = 0
         self._type = ""
+        self._stats = self.Stats()
 
         self.set_height(height, False)
         self.set_age(age, False)
@@ -37,15 +53,29 @@ class Plant:
     def show(self) -> None:
         print(f"{self._name}: {round(self.get_height(), 2)}cm, "
               f"{self.get_age()} days old")
+        self._stats.increment_show()
 
     def grow(self, growing_size: float, announce: bool = True) -> None:
         self.set_height(self._height + growing_size, announce)
+        self._stats.increment_grow()
 
     def age(self, announce: bool = True) -> None:
         self.set_age(self._age + 1, announce)
+        self._stats.increment_age()
 
     def print_type(self) -> None:
         print(f"=== {self._type}")
+
+    @staticmethod
+    def is_older_than_year(age: int) -> bool:
+        return age > 365
+
+    @classmethod
+    def anonymous(cls, name: str = "Unknown plant", height: float = 0.0,
+                  age: int = 0):
+        plant = cls(name, height, age)
+        plant._type = "Anonymous"
+        return plant
 
 
 class Flower(Plant):
