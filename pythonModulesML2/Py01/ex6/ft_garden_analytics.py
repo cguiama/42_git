@@ -139,6 +139,8 @@ class Seed(Flower):
 
 
 class Tree(Plant):
+    _stats: "TreeStats"
+
     class TreeStats(Plant.Stats):
         def __init__(self):
             super().__init__()
