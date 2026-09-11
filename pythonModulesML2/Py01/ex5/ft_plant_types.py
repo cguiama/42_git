@@ -35,7 +35,7 @@ class Plant:
         return self._age
 
     def show(self) -> None:
-        print(f"{self._name}: {round(self.get_height(), 2)}cm, "
+        print(f"{self._name.capitalize()}: {round(self.get_height(), 2)}cm, "
               f"{self.get_age()} days old")
 
     def grow(self, growing_size: float, announce: bool = True) -> None:
@@ -65,9 +65,9 @@ class Flower(Plant):
         super().show()
         print(f" Color: {self._color}")
         if not self._bloomed:
-            print(f" {self._name} has not bloomed yet")
+            print(f" {self._name.capitalize()} has not bloomed yet")
         else:
-            print(f" {self._name} is blooming beautifully!\n")
+            print(f" {self._name.capitalize()} is blooming beautifully!\n")
 
 
 class Tree(Plant):
@@ -114,23 +114,23 @@ class Vegetable(Plant):
                                  announce: bool = False) -> None:
         print(f"[make {self._name} grow and age for"
               f" {days} days]")
-        for day in range(days):
+        for _ in range(days):
             self.grow(growing_size, announce)
             self.age(announce)
 
 
 if __name__ == "__main__":
     print("=== Garden Plant Types ===")
-    rose = Flower("Rose", 15.0, 10, "red")
+    rose = Flower("rose", 15.0, 10, "red")
     rose.print_type()
     rose.show()
     rose.bloom()
     rose.show()
-    oak = Tree("Oak", 200.0, 365, 5.0)
+    oak = Tree("oak", 200.0, 365, 5.0)
     oak.print_type()
     oak.show()
     oak.produce_shade()
-    tomato = Vegetable("Tomato", 5.0, 10, "April")
+    tomato = Vegetable("tomato", 5.0, 10, "April")
     tomato.print_type()
     tomato.show()
     tomato.update_nutritional_value(20, 2.1)

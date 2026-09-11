@@ -34,7 +34,7 @@ class Plant:
         return self._age
 
     def show(self) -> None:
-        print(f"{self._name}: {round(self.get_height(), 2)}cm, "
+        print(f"{self._name.capitalize()}: {round(self.get_height(), 2)}cm, "
               f"{self.get_age()} days old")
 
     def grow(self, growing_size: float) -> None:

@@ -26,7 +26,7 @@ class Plant:
             return self._show_count
 
         def display(self, name: str) -> None:
-            print(f"[statistics for {name}]")
+            print(f"[statistics for {name.capitalize()}]")
             print(f"Stats: {self._grow_count} grow, {self._age_count} age, "
                   f"{self._show_count} show")
 
@@ -71,7 +71,7 @@ class Plant:
         return self._stats
 
     def show(self) -> None:
-        print(f"{self._name}: {round(self.get_height(), 2)}cm, "
+        print(f"{self._name.capitalize()}: {round(self.get_height(), 2)}cm, "
               f"{self.get_age()} days old")
         self._stats.increment_show()
 
@@ -116,9 +116,9 @@ class Flower(Plant):
         super().show()
         print(f" Color: {self._color}")
         if not self._bloomed:
-            print(f" {self._name} has not bloomed yet")
+            print(f" {self._name.capitalize()} has not bloomed yet")
         else:
-            print(f" {self._name} is blooming beautifully!")
+            print(f" {self._name.capitalize()} is blooming beautifully!")
 
 
 class Seed(Flower):
@@ -201,7 +201,7 @@ class Vegetable(Plant):
               f" {days} days]")
         for _ in range(days):
             self.grow(growing_size, announce)
-            self.age(announce)
+            self.age(1, announce)
 
 
 def show_plant_statistics(plant: Plant) -> None:
@@ -215,7 +215,7 @@ if __name__ == "__main__":
           f"{Plant.is_older_than_year(300)}")
     print(f"Is 400 days more than a year? -> "
           f"{Plant.is_older_than_year(400)}\n")
-    rose = Flower("Rose", 15.0, 10, "Red")
+    rose = Flower("rose", 15.0, 10, "Red")
     rose.print_type()
     rose.show()
     show_plant_statistics(rose)
@@ -223,7 +223,7 @@ if __name__ == "__main__":
     rose.bloom()
     rose.show()
     show_plant_statistics(rose)
-    oak = Tree("Oak", 200.0, 365, 5.0)
+    oak = Tree("oak", 200.0, 365, 5.0)
     print("")
     oak.print_type()
     oak.show()
@@ -231,10 +231,11 @@ if __name__ == "__main__":
     oak.produce_shade()
     show_plant_statistics(oak)
     print("")
-    sunflower = Seed("Sunflower", 80.0, 45, "yellow")
+    sunflower = Seed("sunflower", 80.0, 45, "yellow")
+    sunflower.print_type()
     sunflower.show()
     sunflower.bloom()
-    sunflower.grow(30)
+    sunflower.grow(30, False)
     sunflower.age(20, False)
     sunflower.show()
     show_plant_statistics(sunflower)
