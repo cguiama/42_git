@@ -20,7 +20,7 @@ def main() -> None:
     high_scores = {
         name: score for name, score in scores.items() if score > average
     }
-    print(f"Score dict: {scores}")
+    print(f"\nScore dict: {scores}")
     print(f"Score average is {round(average, 2)}")
     print(f"High scores: {high_scores}")
 
