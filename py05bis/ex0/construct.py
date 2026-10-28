@@ -25,8 +25,18 @@ def main() -> None:
         print("\nSUCCESS: You are working in an isolated environment!")
         print("Safe to install reagents without affecting")
         print("the global system.")
-        print("\nReagent installation path:")
-        print(site.getsitepackages()[0])
+
+    print("\nGlobal reagent installation paths:")
+    for path in site.getsitepackages([sys.base_prefix]):
+        print(path)
+    print("\nUser reagent installation path:")
+    print(site.getusersitepackages())
+    if sealed:
+        print("\nVirtual environment reagent installation paths:")
+        for path in site.getsitepackages([sys.prefix]):
+            print(path)
+    else:
+        print("\nVirtual environment reagent installation path: None detected")
 
 
 if __name__ == "__main__":
